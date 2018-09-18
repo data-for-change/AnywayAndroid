@@ -1,4 +1,4 @@
-Anyway Android App Version 2.0 (alapha)
+Anyway Android App Version 2.0
 ================
 This is an open source repository for [Anyway](http://www.anyway.co.il) Andorid app.
 
