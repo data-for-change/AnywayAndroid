@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="toolbar_margin_hor">16dp</dimen>
+    <dimen name="toolbar_margin_top">30dp</dimen>
+    <dimen name="fab_margin_hor">16dp</dimen>
+    <dimen name="fab_margin_ver">10dp</dimen>
+</resources>
