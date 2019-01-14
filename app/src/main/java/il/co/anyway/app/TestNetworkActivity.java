@@ -52,11 +52,12 @@ public class TestNetworkActivity extends AppCompatActivity implements View.OnCli
                 GatDataAPI service = RetrofitNetworkManager.getClient().create(GatDataAPI.class);
 
                 // http://www.anyway.co.il/markers?ne_lat=32.06828054640345&ne_lng=34.777443297207355&sw_lat=32.06362514879965&sw_lng=34.77358058094978&zoom=17&thin_markers=false&start_date=1451599200&end_date=1501534800&format=json&show_markers=1&show_discussions=1&show_urban=3&show_intersection=3&show_lane=3&show_day=7&show_severe=1&show_fatal=1&show_light=1&show_inaccurate=1&start_date=01%2F01%2F2016&end_date=01%2F08%2F2017
+                //https://www.anyway.co.il/markers?ne_lat=32.074933503710426&ne_lng=34.76937219500542&sw_lat=32.06562343302103&sw_lng=34.7616470977664&zoom=17&thin_markers=false&start_date=1451599200&end_date=1501534800&format=json&show_markers=1&show_discussions=1
                 String ne_lat = "32.074933503710426";
                 String ne_lng = "34.76937219500542";
                 String sw_lat = "32.06562343302103";
                 String sw_lng = "34.7616470977664";
-                String zoom = "16";
+                String zoom = "17";
                 String thin_markers = "false";
                 String start_date = "1451599200";
                 String end_date = "1501534800";

@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import il.co.anyway.app.Pagination;
-
 public class Markers {
 
     @SerializedName("markers")

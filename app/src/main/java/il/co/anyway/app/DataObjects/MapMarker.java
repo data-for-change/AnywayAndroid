@@ -98,9 +98,9 @@ public class MapMarker {
     @SerializedName("secondaryStreet")
     @Expose
     private Object secondaryStreet;
-    @SerializedName("severity")
+    @SerializedName("accident_severity")
     @Expose
-    private Integer severity;
+    private Integer accident_severity;
     @SerializedName("speed_limit")
     @Expose
     private Object speedLimit;
@@ -374,12 +374,12 @@ public class MapMarker {
         this.secondaryStreet = secondaryStreet;
     }
 
-    public Integer getSeverity() {
-        return severity;
+    public Integer getAccident_severity() {
+        return accident_severity;
     }
 
-    public void setSeverity(Integer severity) {
-        this.severity = severity;
+    public void setAccident_severity(Integer accident_severity) {
+        this.accident_severity = accident_severity;
     }
 
     public Object getSpeedLimit() {

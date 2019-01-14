@@ -10,6 +10,8 @@
     <string name="report_hazard">Report a hazad</string>
     <string name="language">Change language</string>
     <string name="about">About</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="action_settings">Settings</string>
 
 
 </resources>

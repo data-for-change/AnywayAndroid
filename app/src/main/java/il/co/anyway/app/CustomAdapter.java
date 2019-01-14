@@ -43,7 +43,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         sb.append("Title: ").append(mMarkerList.get(position).getTitle()).append("\n")
                 .append("Description: ").append(mMarkerList.get(position).getDescription()).append("\n")
                 .append("Address: ").append(mMarkerList.get(position).getAddress()).append("\n")
-                .append("Created: ").append(mMarkerList.get(position).getCreated()).append("\n");
+                .append("Created: ").append(mMarkerList.get(position).getCreated()).append("\n")
+                .append("Severity: ").append(mMarkerList.get(position).getAccident_severity()).append("\n");
         holder.mTextView.setText(sb.toString());
     }
 
