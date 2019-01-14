@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        mMyMarker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMyMarker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng( 32.071613, 34.795165 )).title("Marker"));
     }
 
     @Override
@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                Intent intent = new Intent(this, TestNetworkActivity.class);
 //                startActivity(intent);
 
+              LatLng currentPoint =  mGoogleMap.getCameraPosition().target;
+//          String zoom = String.valueOf(mGoogleMap.getCameraPosition().zoom);
+
                 GatDataAPI service = RetrofitNetworkManager.getClient().create(GatDataAPI.class);
 
                 // http://www.anyway.co.il/markers?ne_lat=32.06828054640345&ne_lng=34.777443297207355&sw_lat=32.06362514879965&sw_lng=34.77358058094978&zoom=17&thin_markers=false&start_date=1451599200&end_date=1501534800&format=json&show_markers=1&show_discussions=1&show_urban=3&show_intersection=3&show_lane=3&show_day=7&show_severe=1&show_fatal=1&show_light=1&show_inaccurate=1&start_date=01%2F01%2F2016&end_date=01%2F08%2F2017
@@ -120,7 +123,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                        mProgressBar.setVisibility(View.GONE);
 //                        generateDataList(response.body().getMarkers());
                         mMarkerList = response.body().getMarkers();
-                        mMyMarker.setPosition(new LatLng(mMarkerList.get(0).getLatitude(), mMarkerList.get(0).getLongitude()));
+                        for (MapMarker marker : mMarkerList){
+                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(marker.getAccident_severity().toString()));
+                        }
                     }
 
                     @Override
