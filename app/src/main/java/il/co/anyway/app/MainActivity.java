@@ -20,6 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.List;
 
@@ -94,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                Intent intent = new Intent(this, TestNetworkActivity.class);
 //                startActivity(intent);
 
-              LatLng currentPoint =  mGoogleMap.getCameraPosition().target;
+//              LatLng currentPoint =  mGoogleMap.getCameraPosition().target;
 //          String zoom = String.valueOf(mGoogleMap.getCameraPosition().zoom);
-
+                VisibleRegion visibleRegion = mGoogleMap.getProjection().getVisibleRegion();
                 GatDataAPI service = RetrofitNetworkManager.getClient().create(GatDataAPI.class);
 
                 // http://www.anyway.co.il/markers?ne_lat=32.06828054640345&ne_lng=34.777443297207355&sw_lat=32.06362514879965&sw_lng=34.77358058094978&zoom=17&thin_markers=false&start_date=1451599200&end_date=1501534800&format=json&show_markers=1&show_discussions=1&show_urban=3&show_intersection=3&show_lane=3&show_day=7&show_severe=1&show_fatal=1&show_light=1&show_inaccurate=1&start_date=01%2F01%2F2016&end_date=01%2F08%2F2017
@@ -105,6 +106,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String ne_lng = "34.76937219500542";
                 String sw_lat = "32.06562343302103";
                 String sw_lng = "34.7616470977664";
+                if (visibleRegion!= null && visibleRegion.latLngBounds != null &&
+                        visibleRegion.latLngBounds.northeast != null && visibleRegion.latLngBounds.southwest != null) {
+                    ne_lat = String.valueOf(visibleRegion.latLngBounds.northeast.latitude);
+                    ne_lng = String.valueOf(visibleRegion.latLngBounds.northeast.longitude);
+                    sw_lat = String.valueOf(visibleRegion.latLngBounds.southwest.latitude);
+                    sw_lng = String.valueOf(visibleRegion.latLngBounds.southwest.longitude);
+                }
                 String zoom = "17";
                 String thin_markers = "false";
                 String start_date = "1451599200";
@@ -124,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                        generateDataList(response.body().getMarkers());
                         mMarkerList = response.body().getMarkers();
                         for (MapMarker marker : mMarkerList){
-                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(marker.getAccident_severity().toString()));
+                            String severity = marker.getAccident_severity() == null ? "":marker.getAccident_severity().toString();
+                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(severity));
                         }
                     }
 
