@@ -18,7 +18,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawerLayout;
     private GoogleMap mGoogleMap;
     private List<MapMarker> mMarkerList;
-    private Marker mMyMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        mMyMarker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng( 32.071613, 34.795165 )).title("Marker"));
         mGoogleMap.setOnCameraIdleListener(this);
     }
 
@@ -91,17 +88,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floating_find_my_location_button:
-                //getMarkersForCurrentView();
                 break;
         }
     }
 
     private void getMarkersForCurrentView() {
-        //                Intent intent = new Intent(this, TestNetworkActivity.class);
-//                startActivity(intent);
-
-//              LatLng currentPoint =  mGoogleMap.getCameraPosition().target;
-//          String zoom = String.valueOf(mGoogleMap.getCameraPosition().zoom);
         VisibleRegion visibleRegion = mGoogleMap.getProjection().getVisibleRegion();
         GatDataAPI service = RetrofitNetworkManager.getClient().create(GatDataAPI.class);
 
@@ -130,20 +121,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         updateMarkersOnMap(false);
         Call<Markers> call = service.getAllMarkers(ne_lat, ne_lng, sw_lat, sw_lng, zoom, thin_markers, start_date, end_date, format, show_markers, show_discussions);
-//                mProgressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<Markers>() {
 
             @Override
             public void onResponse(Call<Markers> call, Response<Markers> response) {
-                String responseBody = response.body().toString();
-//                        mProgressBar.setVisibility(View.GONE);
-//                        generateDataList(response.body().getMarkers());
                 mMarkerList = response.body().getMarkers();
             }
 
                     @Override
             public void onFailure(Call<Markers> call, Throwable t) {
-//                        mProgressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
