@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String sw_lat = "32.06562343302103";
         String sw_lng = "34.7616470977664";
         if (visibleRegion!= null && visibleRegion.latLngBounds != null &&
-                visibleRegion.latLngBounds.northeast != null && visibleRegion.latLngBounds.southwest != null) {
+                visibleRegion.latLngBounds.northeast != null &&
+                visibleRegion.latLngBounds.southwest != null &&
+                visibleRegion.latLngBounds.northeast.latitude - visibleRegion.latLngBounds.southwest.latitude < 0.1){
             ne_lat = String.valueOf(visibleRegion.latLngBounds.northeast.latitude);
             ne_lng = String.valueOf(visibleRegion.latLngBounds.northeast.longitude);
             sw_lat = String.valueOf(visibleRegion.latLngBounds.southwest.latitude);
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String show_markers = "1";
         String show_discussions = "1";
 
+        updateMarkersOnMap(false);
         Call<Markers> call = service.getAllMarkers(ne_lat, ne_lng, sw_lat, sw_lng, zoom, thin_markers, start_date, end_date, format, show_markers, show_discussions);
 //                mProgressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<Markers>() {
@@ -136,11 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                        mProgressBar.setVisibility(View.GONE);
 //                        generateDataList(response.body().getMarkers());
                 mMarkerList = response.body().getMarkers();
-                for (MapMarker marker : mMarkerList){
-                    String severity = marker.getAccident_severity() == null ? "":marker.getAccident_severity().toString();
-                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(severity));
-                        }
-                    }
+            }
 
                     @Override
             public void onFailure(Call<Markers> call, Throwable t) {
@@ -148,6 +147,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+        updateMarkersOnMap(true);
+    }
+
+    private void updateMarkersOnMap(boolean addMarkers) {
+        if (addMarkers && mMarkerList != null) {
+            for (MapMarker marker : mMarkerList) {
+                String severity = marker.getAccident_severity() == null ? "" : marker.getAccident_severity().toString();
+                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(severity));
+            }
+        } else {
+            mGoogleMap.clear();
+        }
     }
 
     @Override
