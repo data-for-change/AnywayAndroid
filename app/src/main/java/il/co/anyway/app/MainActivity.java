@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String show_markers = "1";
         String show_discussions = "1";
 
+        Log.d(getClass().getName(), "Sending new request for markers");
         updateMarkersOnMap(false);
         Call<Markers> call = service.getAllMarkers(ne_lat, ne_lng, sw_lat, sw_lng, zoom, thin_markers, start_date, end_date, format, show_markers, show_discussions);
         call.enqueue(new Callback<Markers>() {
@@ -142,8 +144,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String severity = marker.getAccident_severity() == null ? "" : marker.getAccident_severity().toString();
                 mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(severity));
             }
+            Log.d(getClass().getName(), "Added " + mMarkerList.size() +" markers to map");
         } else {
             mGoogleMap.clear();
+            Log.d(getClass().getName(), "Cleared map");
         }
     }
 
