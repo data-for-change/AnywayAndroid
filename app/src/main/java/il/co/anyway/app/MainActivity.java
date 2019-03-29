@@ -2,6 +2,8 @@ package il.co.anyway.app;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
@@ -142,7 +145,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (addMarkers && mMarkerList != null) {
             for (MapMarker marker : mMarkerList) {
                 String severity = marker.getAccident_severity() == null ? "" : marker.getAccident_severity().toString();
-                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLatitude(), marker.getLongitude())).title(severity));
+                int height = 50;
+                int width = 50;
+                BitmapDrawable bitmapDraw = (BitmapDrawable)getResources().getDrawable(R.drawable.human);
+                Bitmap iconBitmap = bitmapDraw.getBitmap();
+                Bitmap humanMarker = Bitmap.createScaledBitmap(iconBitmap, width, height, false);
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(marker.getLatitude(), marker.getLongitude()))
+                        .icon(BitmapDescriptorFactory.fromBitmap(humanMarker))
+                        .title(severity));
             }
             Log.d(getClass().getName(), "Added " + mMarkerList.size() +" markers to map");
         } else {
